@@ -7,4 +7,5 @@ add_executable(app test.c
         utils/ls.c
         utils/ls.h
         utils/wcat.c
-        utils/wcat.h)
+        utils/wcat.h
+        utils/wgrep.c)
