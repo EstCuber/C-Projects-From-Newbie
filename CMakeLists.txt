@@ -1,5 +1,5 @@
-project(C-Projects)
-add_executable(app test.c
+project(C-Projects-From-Newbie)
+add_executable(app
         algorithms/list_query.c
         algorithms/list_query.h
         algorithms/funcs.c

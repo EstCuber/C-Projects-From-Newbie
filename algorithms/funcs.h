@@ -11,4 +11,6 @@
     (y) = swm_temp; \
     } while (0)
 
+#define FIND_MIN(a, b) ((a) < (b) ? (a) : (b))
+#define FIND_MAX(a, b) ((a) > (b) ? (a) : (b))
 #endif //C_PROJECTS_FUNCS_H
