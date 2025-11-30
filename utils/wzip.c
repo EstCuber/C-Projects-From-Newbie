@@ -12,8 +12,7 @@
 
 #include "wcat.h"
 
-int zip(int file, int result_file, int* count, char* last_char) {
-    bool zipped = false;
+void zip(int file, int result_file, int* count, char* last_char) {
     int n;
 
     while ((n = read(file, buf, WZIP_BUF_SIZE)) > 0) {

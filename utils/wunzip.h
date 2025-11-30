@@ -1,0 +1,11 @@
+//
+// Created by ivanefremov on 30.11.2025.
+//
+
+#ifndef C_PROJECTS_FROM_NEWBIE_WUNZIP_H
+#define C_PROJECTS_FROM_NEWBIE_WUNZIP_H
+
+#define WUNZIP_BUF_SIZE 1024
+static char buf[WUNZIP_BUF_SIZE];
+
+#endif //C_PROJECTS_FROM_NEWBIE_WUNZIP_H

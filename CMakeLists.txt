@@ -11,4 +11,6 @@ add_executable(app
         utils/wgrep.c
         utils/wzip.c
         utils/wgrep.h
-        utils/wzip.h)
+        utils/wzip.h
+        utils/wunzip.c
+        utils/wunzip.h)
