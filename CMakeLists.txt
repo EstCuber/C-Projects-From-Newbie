@@ -8,4 +8,7 @@ add_executable(app
         utils/ls.h
         utils/wcat.c
         utils/wcat.h
-        utils/wgrep.c)
+        utils/wgrep.c
+        utils/wzip.c
+        utils/wgrep.h
+        utils/wzip.h)

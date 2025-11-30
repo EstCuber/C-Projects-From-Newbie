@@ -7,9 +7,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include "wcat.h"
 
-#define WCAT_BUFF_SIZE 1024
-static char buf[WCAT_BUFF_SIZE];
 
 void cat(int file) {
     int n;

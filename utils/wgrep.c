@@ -8,10 +8,8 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stdbool.h>
-#define WGREP_BUFF_SIZE 1024
-#define WGREP_LINE_BUFF_SIZE 4096
-static char buf[WGREP_BUFF_SIZE];
-static char line_buff[WGREP_LINE_BUFF_SIZE];
+#include "wgrep.h"
+
 
 bool grep(const char *term, int fp) {
     int n;
