@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdbool.h>
-#include "wzip.h"
+#include "../wzip.h"
 
 #include "wcat.h"
 

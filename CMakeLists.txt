@@ -4,15 +4,17 @@ add_executable(app
         algorithms/list_query.h
         algorithms/funcs.c
         algorithms/funcs.h
-        utils/ls.c
-        utils/ls.h
-        utils/wcat.c
-        utils/wcat.h
-        utils/wgrep.c
-        utils/wzip.c
-        utils/wgrep.h
-        utils/wzip.h
-        utils/wunzip.c
-        utils/wunzip.h
-        utils/key_value_storage.c
-        utils/key_value_storage.h)
+        utils/basic/ls.c
+        utils/basic/ls.h
+        utils/basic/wcat.c
+        utils/basic/wcat.h
+        utils/basic/wgrep.c
+        utils/basic/wzip.c
+        utils/basic/wgrep.h
+        utils/basic/wzip.h
+        utils/basic/wunzip.c
+        utils/basic/wunzip.h
+        utils/basic/database/key_value_storage.c
+        utils/basic/database/key_value_storage.h
+        utils/reverse.c
+        utils/reverse.h)
