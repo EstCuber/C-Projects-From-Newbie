@@ -13,4 +13,6 @@ add_executable(app
         utils/wgrep.h
         utils/wzip.h
         utils/wunzip.c
-        utils/wunzip.h)
+        utils/wunzip.h
+        utils/key_value_storage.c
+        utils/key_value_storage.h)
