@@ -8,9 +8,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdbool.h>
-#include "../wzip.h"
+#include "wzip.h"
 
-#include "wcat.h"
 
 void zip(int file, int result_file, int* count, char* last_char) {
     int n;

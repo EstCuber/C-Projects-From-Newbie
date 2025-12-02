@@ -2,12 +2,11 @@
 // Created by ivanefremov on 25.11.2025.
 //
 
-#include "../wcat.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "../wcat.h"
+#include "wcat.h"
 
 
 void cat(int file) {

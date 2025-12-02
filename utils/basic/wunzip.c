@@ -2,10 +2,9 @@
 // Created by ivanefremov on 30.11.2025.
 //
 
-#include "../wunzip.h"
+#include "wunzip.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <ctype.h>

@@ -8,7 +8,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stdbool.h>
-#include "../wgrep.h"
+#include "wgrep.h"
 
 
 bool grep(const char *term, int fp) {
