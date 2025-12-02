@@ -1,7 +1,7 @@
 project(C-Projects-From-Newbie)
 add_executable(app
-        algorithms/list_query.c
-        algorithms/list_query.h
+        algorithms/structs/list_query.c
+        algorithms/structs/list_query.h
         algorithms/funcs.c
         algorithms/funcs.h
         utils/basic/ls.c
@@ -16,5 +16,7 @@ add_executable(app
         utils/basic/wunzip.h
         utils/basic/database/key_value_storage.c
         utils/basic/database/key_value_storage.h
-        utils/reverse.c
-        utils/reverse.h)
+        utils/basic/reverse.c
+        utils/basic/reverse.h
+        algorithms/sort/binary_sort.c
+        algorithms/sort/text_sort.c)
