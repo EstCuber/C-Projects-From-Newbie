@@ -18,5 +18,6 @@ add_executable(app
         utils/basic/database/key_value_storage.h
         utils/basic/reverse.c
         utils/basic/reverse.h
-        algorithms/sort/binary_sort.c
-        algorithms/sort/text_sort.c)
+        algorithms/sort/exchange_sort.c
+        algorithms/sort/text_sort.c
+        algorithms/sort/bubble_sort.c)
