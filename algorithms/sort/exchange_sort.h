@@ -11,7 +11,7 @@ void _exchange_sort(
     compare_func_t cmp
 );
 
-#define exchange_sort(base, count, cmp) _exchange_sort(base, count, sizeof(*arr), cmp)
+#define exchange_sort(base, count, cmp) _exchange_sort(base, count, sizeof(*base), cmp)
 
 typedef struct ArrObj {
     int *arr;
