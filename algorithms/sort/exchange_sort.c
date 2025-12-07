@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "exchange_sort.h"
+#include "sort.h"
 
 void _exchange_sort(
     void* base,
@@ -18,13 +18,13 @@ void _exchange_sort(
     char *ptr = (char*) base;
     void *temp = malloc(size);
     if (!temp) return;
-    
+
     for (size_t i = 0; i < count; ++i) {
         for (size_t j = i+1; j < count; ++j) {
-            
+
             char *a = ptr + (i * size);
             char *b = ptr + (j * size);
-            
+
             if (cmp(a, b) > 0) {
                 memcpy(temp, a, size);
                 memcpy(a, b, size);
@@ -32,6 +32,6 @@ void _exchange_sort(
             }
         }
     }
-    
+
     free(temp);
 }
