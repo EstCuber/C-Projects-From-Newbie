@@ -9,6 +9,6 @@
 
 static char buf[WCAT_BUFF_SIZE];
 
-void wcat(int file);
+void cat(int file);
 
-#endif //C_PROJECTS_WCAT_H
+#endif // C_PROJECTS_WCAT_H
