@@ -16,7 +16,7 @@ int path() { return 0; }
 
 inline int exit_from_shell(int argc, char **argv) { return 0; }
 
-int main(int argc, char **argv) {
+int shell(int argc, char **argv) {
   int n = 0;
   int line_idx = 0;
   char *args[MAX_ARGS];
@@ -73,3 +73,5 @@ int main(int argc, char **argv) {
   }
   return 0;
 }
+
+int main(int argc, char **argv) { shell(argc, argv); }
