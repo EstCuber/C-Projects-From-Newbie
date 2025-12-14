@@ -5,6 +5,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#define DEFAULT_CAPACITY 16
+// добавить версию без двойного указателя
 static string *safe_malloc_create_string(string **new_string, size_t size) {
   *new_string = (string *)malloc(sizeof(string));
   if (*new_string == NULL) {
@@ -12,7 +14,7 @@ static string *safe_malloc_create_string(string **new_string, size_t size) {
     return NULL;
   }
 
-  size_t capacity = (size > 0) ? size : 16;
+  size_t capacity = (size > 0) ? size : DEFAULT_CAPACITY;
   (*new_string)->chars = (char *)malloc(capacity + 1);
   if ((*new_string)->chars == NULL) {
     perror("Error to create string!");
@@ -67,3 +69,46 @@ static string *create_string_impl(char *symbols, size_t nbytes) {
   memcpy(new_string->chars, symbols, nbytes);
   return new_string;
 }
+
+// other variation from Zhurman
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+
+// #define DEFAULT_CAPACITY 16
+
+// typedef struct {
+//     char *chars;
+//     size_t cap;
+//     size_t len;
+// } string;
+
+// const string nostr = {0};
+
+// static string safe_malloc_create_string(size_t len) {
+//     string new_string;
+
+//     size_t capacity = (len > 0) ? len : DEFAULT_CAPACITY;
+
+//     new_string.chars = (char *)malloc(capacity + 1);
+//     if (new_string.chars == NULL) {
+//         perror("Error to create string!");
+//         return nostr;
+//     }
+
+//     memset(new_string.chars, 0, capacity + 1);
+//     new_string.cap = capacity;
+//     new_string.len = len;
+
+//     return new_string;
+// }
+
+// int main() {
+//     string s = safe_malloc_create_string(5);
+
+//     strcpy(s.chars, "Hello");
+//     printf("%s (len=%zu, cap=%zu)\n", s.chars, s.len, s.cap);
+//     free(s.chars);
+
+//     return 0;
+// }
