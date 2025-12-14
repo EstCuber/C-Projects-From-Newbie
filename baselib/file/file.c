@@ -5,21 +5,21 @@
 #include <string.h>
 #include <unistd.h>
 
-int try_op_file(char *filename, int flags, int mode) {
-  int fp;
-  if ((fp = open(filename, flags, mode)) < 0) {
+int try_op_file(const char *filename, int flags, int mode) {
+  int fd;
+  if ((fd = open(filename, flags, mode)) < 0) {
     perror("Error open file");
     return -1;
   }
-  return fp;
+  return fd;
 }
 
-int fatal_op_file(char *filename, int flags, int mode) {
-  int fp;
-  if ((fp = try_op_file(filename, flags, mode)) < 0) {
+int fatal_op_file(const char *filename, int flags, int mode) {
+  int fd;
+  if ((fd = try_op_file(filename, flags, mode)) < 0) {
     exit(1);
   }
-  return fp;
+  return fd;
 }
 
 int try_wr_file_raw(int fd, const char *buffer, size_t nbytes) {
@@ -34,4 +34,20 @@ int fatal_wr_file_raw(int fd, const char *buffer, size_t nbytes) {
     exit(1);
   }
   return 0;
+}
+
+ssize_t try_read_buffer_raw(int fd, char *buffer, size_t nbytes) {
+  ssize_t bytes_read = read(fd, buffer, nbytes);
+  if ((bytes_read) < 0) {
+    perror("Error reading file");
+  }
+  return bytes_read;
+}
+
+ssize_t fatal_read_buffer_raw(int fd, char *buffer, size_t nbytes) {
+  ssize_t bytes_read = try_read_buffer_raw(fd, buffer, nbytes);
+  if ((bytes_read) < 0) {
+    exit(1);
+  }
+  return bytes_read;
 }
