@@ -1,5 +1,5 @@
 #include "shell.h"
-#include "../baselib/file/file.h"
+#include "../baselib/string-lazy/string-lazy.h"
 #include "../utils/basic/wcat.h"
 #include "fcntl.h"
 #include <stdio.h>
