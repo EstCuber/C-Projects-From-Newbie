@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "../baselib/file/file.h"
 #include "../utils/basic/wcat.h"
 #include "fcntl.h"
 #include <stdio.h>
@@ -7,9 +8,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int cd() { return 0; }
-
-int path() { return 0; }
+// переписать shell - задача сделать так, чтобы этот shell мог переходить по
+// папкам
 
 // inline int exit_from_shell(char *arg) {
 //   if (strcmp(arg, "exit") == 0) {
@@ -25,7 +25,8 @@ int shell(int argc, char **argv) {
   // бесконечный цикл т.к шелл
   while (1) {
     // выводим в дескриптор вывода shell >
-    write(STDOUT_FILENO, "shell > ", 8);
+    try_wr_file_str(STDOUT_FILENO, "shell > ");
+    // write(STDOUT_FILENO, "shell > ", 8);
     // читаем то что нам вводят, читаем в буффер
     if ((n = read(STDIN_FILENO, BUFF_SHELL, SIZE_BUFF_SHELL)) > 0) {
       // возможно ускорит если ему обозначить класть его в регистр? для
