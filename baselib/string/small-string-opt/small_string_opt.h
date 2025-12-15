@@ -5,6 +5,10 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#define SHORT_FLAG_MASK 0x80
+#define LEN_MASK 0x7F
+
+// SSO
 typedef struct {
   char *ptr;
   size_t len;
