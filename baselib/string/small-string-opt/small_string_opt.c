@@ -23,12 +23,6 @@ char *string_text(String *s) {
   return s->l.ptr;
 }
 
-void set_short_string(String *s, const char *text, size_t nbytes) {
-  memcpy(s->s.buf, text, nbytes);
-  s->s.buf[nbytes] = '\0';
-  s->s.len_remaining_and_flag = (uint8_t)nbytes | SHORT_FLAG_MASK;
-}
-
 static size_t find_capacity(size_t current_len, size_t current_cap) {
   if (current_cap == 0)
     current_cap = 16;
@@ -37,6 +31,24 @@ static size_t find_capacity(size_t current_len, size_t current_cap) {
     current_cap *= 2;
   }
   return current_cap;
+}
+
+static void set_short_string(String *s, const char *text, size_t nbytes) {
+  memcpy(s->s.buf, text, nbytes);
+  s->s.buf[nbytes] = '\0';
+  s->s.len_remaining_and_flag = (uint8_t)nbytes | SHORT_FLAG_MASK;
+}
+
+static void set_long_string(String *s, const char *text, size_t nbytes) {
+  size_t capacity = find_capacity(nbytes, 0);
+  char *ptr = (char *)malloc(capacity + 1);
+  if (!ptr)
+    exit(1);
+
+  memcpy(ptr, text, nbytes);
+  s->l.ptr = ptr;
+  s->l.len = nbytes;
+  s->l.cap = capacity;
 }
 
 void string_reserve(String *s, size_t new_len) {
@@ -91,5 +103,18 @@ void string_append(String *s, const char *text, size_t nbytes) {
     s->s.len_remaining_and_flag = (uint8_t)new_len | SHORT_FLAG_MASK;
   } else {
     s->l.len = new_len;
+  }
+}
+
+void string_new(String *s) {
+  s->s.buf[0] = '\0';
+  s->s.len_remaining_and_flag = 0 | SHORT_FLAG_MASK;
+}
+
+void string_from(String *s, const char *text, size_t nbytes) {
+  if (nbytes <= MAX_SHORT_LEN) {
+    set_short_string(s, text, nbytes);
+  } else {
+    set_long_string(s, text, nbytes);
   }
 }

@@ -28,4 +28,8 @@ typedef struct {
   };
 } String;
 
+void string_new(String *s);
+void string_from(String *s, const char *text, size_t nbytes);
+void string_reserve(String *s, size_t new_len);
+
 #endif
