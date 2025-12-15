@@ -15,8 +15,9 @@ typedef struct {
   size_t cap;
 } LongString;
 
+#define MAX_SHORT_LEN (sizeof(LongString) - 1)
 typedef struct {
-  char buf[sizeof(LongString) - 1];
+  char buf[MAX_SHORT_LEN];
   uint8_t len_remaining_and_flag;
 } ShortString;
 
