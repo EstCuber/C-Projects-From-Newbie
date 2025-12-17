@@ -1,9 +1,11 @@
 #include "small_string_opt.h"
+#include "../string-lazy/string-lazy.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 bool is_short_string(String *str) {
   unsigned char flag_byte = str->s.len_remaining_and_flag;
@@ -117,4 +119,16 @@ void string_from(String *s, const char *text, size_t nbytes) {
   } else {
     set_long_string(s, text, nbytes);
   }
+}
+
+void string_print(String *s) {
+  try_wr_file_raw(STDOUT_FILENO, string_text(s), string_len(s));
+  try_wr_file_raw(STDOUT_FILENO, "\n", sizeof("\n"));
+}
+
+void string_free(String *s) {
+  if (!is_short_string(s)) {
+    free(s->l.ptr);
+  }
+  string_new(s);
 }

@@ -30,6 +30,10 @@ typedef struct {
 
 void string_new(String *s);
 void string_from(String *s, const char *text, size_t nbytes);
+// use only for format: (s, "hello", sizeof(hello) - 1);
+#define string_from_s(s, text) string_from(s, text, sizeof(text) - 1);
 void string_reserve(String *s, size_t new_len);
+void string_print(String *s);
+void string_free(String *s);
 
 #endif
