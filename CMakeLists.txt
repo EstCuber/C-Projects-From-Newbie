@@ -1,23 +1,13 @@
-project(C-Projects-From-Newbie)
+cmake_minimum_required(VERSION 3.10)
+
+project(C-Projects-From-Newbie C)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+include_directories(${CMAKE_SOURCE_DIR})
 add_executable(app
-        algorithms/structs/list_query.c
-        algorithms/structs/list_query.h
-        algorithms/funcs.c
-        algorithms/funcs.h
-        utils/basic/ls.c
-        utils/basic/ls.h
-        utils/basic/wcat.c
-        utils/basic/wcat.h
-        utils/basic/wgrep.c
-        utils/basic/wzip.c
-        utils/basic/wgrep.h
-        utils/basic/wzip.h
-        utils/basic/wunzip.c
-        utils/basic/wunzip.h
-        utils/basic/database/key_value_storage.c
-        utils/basic/database/key_value_storage.h
-        utils/basic/reverse.c
-        utils/basic/reverse.h
-        algorithms/sort/exchange_sort.c
-        algorithms/sort/text_sort.c
-        algorithms/sort/bubble_sort.c)
+    baselib/string/small-string-opt/small_string_opt.c
+    baselib/string/string-lazy/string-lazy.c
+    baselib/string/tests/s_s_o.c
+)
