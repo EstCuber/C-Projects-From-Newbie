@@ -34,4 +34,6 @@ int fatal_wr_file_raw(int fd, const char *buffer, size_t nbytes);
 ssize_t try_read_buffer_raw(int fd, char *buffer, size_t nbytes);
 ssize_t fatal_read_buffer_raw(int fd, char *buffer, size_t nbytes);
 
+ssize_t safe_write(int fd, const char *buffer, size_t nbytes);
+
 #endif

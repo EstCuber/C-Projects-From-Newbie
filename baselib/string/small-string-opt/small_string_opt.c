@@ -1,5 +1,5 @@
 #include "small_string_opt.h"
-#include "../string-lazy/string-lazy.h"
+#include "../base-funcs/base-funcs.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
