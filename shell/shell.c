@@ -1,5 +1,4 @@
 #include "shell.h"
-#include "../baselib/string/string-lazy/string-lazy.h"
 #include "../utils/basic/wcat.h"
 #include "fcntl.h"
 #include <stdio.h>
@@ -17,7 +16,22 @@
 //   }
 //   return -1;
 // }
+#define CWD_SIZE 1024
+static char cwd[CWD_SIZE];
 
+void cd(char *arg) {
+  if (chdir(arg) != 0) {
+    perror("cd failed");
+  }
+}
+
+void current_path(char cwd[CWD_SIZE]) {
+  if (getcwd(cwd, CWD_SIZE) != NULL) {
+    printf("my_shell:%s > ", cwd);
+  } else {
+    perror("getcwd() error");
+  }
+}
 int shell(int argc, char **argv) {
   int n = 0;
   int line_idx = 0;
@@ -25,7 +39,7 @@ int shell(int argc, char **argv) {
   // бесконечный цикл т.к шелл
   while (1) {
     // выводим в дескриптор вывода shell >
-    try_wr_file_str(STDOUT_FILENO, "shell > ");
+    current_path(cwd);
     // write(STDOUT_FILENO, "shell > ", 8);
     // читаем то что нам вводят, читаем в буффер
     if ((n = read(STDIN_FILENO, BUFF_SHELL, SIZE_BUFF_SHELL)) > 0) {
@@ -63,6 +77,8 @@ int shell(int argc, char **argv) {
                 cat(fp);
                 close(fp);
               }
+            } else if ((strcmp(args[0], "cd")) == 0) {
+              cd(args[1]);
             } else {
               // создаю дочерний процесс, который и выполнит то что мы в
               // аргументе ввели, при условии что он не совпал ни с одним из
