@@ -10,6 +10,7 @@ union header {
     size_t size;
     unsigned is_free;
     union header *next;
+    union header *prev;
   } s;
   ALIGN stub;
 };
@@ -19,22 +20,39 @@ pthread_mutex_t global_malloc_lock;
 header_t *head = NULL;
 header_t *tail = NULL;
 
-// Ну да. И что, что я так написал, а? Зато! Не нейронка!
-header_t *get_free_block(size_t size) {
-  if (head != NULL) {
-    if ((head->s.is_free == 1) && (head->s.size >= size)) {
-      return head;
+header_t *split_block(header_t *header, size_t size) {
+  header_t *res_header;
+  if ((size + sizeof(header_t)) < header->s.size) {
+    size_t remaining_size = header->s.size - size - sizeof(header_t);
+    res_header =
+        (header_t *)((char *)header + sizeof(header_t) + remaining_size);
+    header->s.size = remaining_size;
+    res_header->s.size = size;
+    res_header->s.is_free = 0;
+    header->s.is_free = 1;
+    res_header->s.prev = header;
+    if (header->s.next != NULL) {
+      header->s.next->s.prev = res_header;
+      res_header->s.next = header->s.next;
+      header->s.next = res_header;
     } else {
-      header_t *current_header = head->s.next;
-      while (current_header) {
+      header->s.next = res_header;
+      tail = res_header;
+      res_header->s.next = NULL;
+    }
+    return res_header;
+  }
+  return header;
+}
 
-        if ((current_header->s.is_free == 1) &&
-            (current_header->s.size >= size)) {
-          return current_header;
-        } else {
-          current_header = current_header->s.next;
-        }
-      }
+header_t *get_free_block(size_t size) {
+  header_t *current_header = head;
+  while (current_header) {
+
+    if ((current_header->s.is_free == 1) && (current_header->s.size >= size)) {
+      return current_header;
+    } else {
+      current_header = current_header->s.next;
     }
   }
   return NULL;
@@ -51,6 +69,7 @@ void *malloc(size_t size) {
   header = get_free_block(size);
   if (header) {
     header->s.is_free = 0;
+    header = split_block(header, size);
     pthread_mutex_unlock(&global_malloc_lock);
     return (void *)(header + 1);
   }
@@ -66,9 +85,11 @@ void *malloc(size_t size) {
   header->s.next = NULL;
   if (!head) {
     head = header;
+    header->s.prev = NULL;
   }
   if (tail) {
     tail->s.next = header;
+    header->s.prev = tail;
   }
   tail = header;
   pthread_mutex_unlock(&global_malloc_lock);
@@ -91,20 +112,44 @@ void free(void *block) {
     if (head == tail) {
       head = tail = NULL;
     } else {
-      tmp = head;
-      while (tmp) {
-        if (tmp->s.next == tail) {
-          tmp->s.next = NULL;
-          tail = tmp;
-        }
-        tmp = tmp->s.next;
-      }
+      tail = tail->s.prev;
+      tail->s.next = NULL;
     }
     sbrk(0 - sizeof(header_t) - header->s.size);
     pthread_mutex_unlock(&global_malloc_lock);
     return;
   }
   header->s.is_free = 1;
+
+  if (header->s.next != NULL) {
+    tmp = header->s.next;
+    if (tmp->s.is_free == 1) {
+      header->s.size += tmp->s.size + sizeof(header_t);
+      if (tmp == tail) {
+        header->s.next = NULL;
+        tail = header;
+
+      } else if (tmp->s.next != NULL) {
+        header->s.next = tmp->s.next;
+        tmp->s.next->s.prev = header;
+      }
+    }
+  }
+
+  if (header->s.prev != NULL) {
+    tmp = header->s.prev;
+    if (tmp->s.is_free == 1) {
+      tmp->s.size += header->s.size + sizeof(header_t);
+      if (header->s.next != NULL) {
+        tmp->s.next = header->s.next;
+        header->s.next->s.prev = tmp;
+      } else if (header->s.next == NULL) {
+        tmp->s.next = NULL;
+        tail = tmp;
+      }
+      header = tmp;
+    }
+  }
   pthread_mutex_unlock(&global_malloc_lock);
 }
 
@@ -139,7 +184,11 @@ void *realloc(void *block, size_t size) {
   }
   ret = malloc(size);
   if (ret) {
-    memcpy(ret, block, header->s.size);
+    size_t copy_size = header->s.size;
+    // так ведь?
+    if (size < copy_size)
+      copy_size = size;
+    memcpy(ret, block, copy_size);
     free(block);
   }
   return ret;
