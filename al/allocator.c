@@ -185,7 +185,8 @@ void *realloc(void *block, size_t size) {
   ret = malloc(size);
   if (ret) {
     size_t copy_size = header->s.size;
-    if (size < copy_size)
+    // так ведь?
+    if (size > copy_size)
       copy_size = size;
     memcpy(ret, block, header->s.size);
     free(block);
