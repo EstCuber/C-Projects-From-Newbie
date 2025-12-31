@@ -1,4 +1,4 @@
-#include "../small-string-opt/small_string_opt.h"
+#include "../../libs/string/small-string-opt/small_string_opt.h"
 
 void test_print() {
   unsigned short count_tests = 255;
