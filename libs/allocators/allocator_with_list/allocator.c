@@ -1,6 +1,8 @@
+#include "allocator.h"
 #include "pthread.h"
 #include <bits/pthreadtypes.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 typedef char ALIGN[32];
@@ -20,7 +22,7 @@ pthread_mutex_t global_malloc_lock;
 header_t *head = NULL;
 header_t *tail = NULL;
 
-header_t *split_block(header_t *header, size_t size) {
+static header_t *split_block(header_t *header, size_t size) {
   header_t *res_header;
   if ((size + sizeof(header_t)) < header->s.size) {
     size_t remaining_size = header->s.size - size - sizeof(header_t);
@@ -45,7 +47,7 @@ header_t *split_block(header_t *header, size_t size) {
   return header;
 }
 
-header_t *get_free_block(size_t size) {
+static header_t *get_free_block(size_t size) {
   header_t *current_header = head;
   while (current_header) {
 
@@ -192,4 +194,33 @@ void *realloc(void *block, size_t size) {
     free(block);
   }
   return ret;
+}
+
+void info_alloc(DebugAllocFlag flag) {
+  size_t count = 1;
+  // pthread_mutex_lock(&global_malloc_lock); // Походу здесь это не надо(
+  header_t *curr = head;
+  while (curr != NULL) {
+    size_t curr_size = curr->s.size;
+    unsigned curr_is_free = curr->s.is_free;
+
+    if ((flag == DBG_ALLOC_FREE) || (flag == DBG_ALLOC_ALL)) {
+      if (curr_is_free == DBG_ALLOC_FREE) {
+        printf("%zu: size: %zu, flag: %u\n", count, curr_size, curr_is_free);
+        count++;
+      }
+    }
+    if ((flag == DBG_ALLOC_NOT_FREE) || (flag == DBG_ALLOC_ALL)) {
+      if (curr_is_free == DBG_ALLOC_NOT_FREE) {
+        printf(
+            "%zu: [address header: %p | address alloc: %p] size: %-8zu, flag: "
+            "%u\n",
+            count, (void *)curr, (void *)(curr + 1), curr_size, curr_is_free);
+        count++;
+      }
+    }
+
+    curr = curr->s.next;
+  }
+  // pthread_mutex_unlock(&global_malloc_lock);
 }

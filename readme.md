@@ -1,3 +1,5 @@
+#1. ALLOCATOR INFO
+
 Свой малок писал по этому гайду simple_al -
 
 https://arjunsreedharan.org/post/148675821737/memory-allocators-101-write-a-simple-memory
@@ -11,3 +13,7 @@ LD_PRELOAD=./memalloc.so ls -la < напишите это, чтобы проте
 fish
 
 env LD_PRELOAD=./memalloc.so ls < это на фише.
+
+---
+
+Также добавил allocator_test для замера 1000 аллокаций, работает в целом и хорошо!)
