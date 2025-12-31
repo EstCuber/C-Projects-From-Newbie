@@ -47,6 +47,9 @@ static header_t *split_block(header_t *header, size_t size) {
   return header;
 }
 
+// согласно perf - основное процессорное время тратится в этой функции, что
+// логично ибо ему нужно найти свободный блок, а для большой аллокации это
+// требует время возможное решение: поменять алгоритм поиска
 static header_t *get_free_block(size_t size) {
   header_t *current_header = head;
   while (current_header) {
@@ -60,6 +63,8 @@ static header_t *get_free_block(size_t size) {
   return NULL;
 }
 
+
+// тут тоже тратится время, но я так понимаю из-за get_free_block()?
 void *malloc(size_t size) {
   size_t total_size;
   void *block;

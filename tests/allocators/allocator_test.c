@@ -1,13 +1,13 @@
 #include "../../libs/allocators/allocator_with_list/allocator.h"
-#define COUNT 1000
+#define COUNT 10000
 int main(void) {
   char *obj[COUNT];
-  printf("-----ЗАПУСК АЛЛОКАЦИИ 1000 БЛОКОВ!-----\n");
+  printf("-----ЗАПУСК АЛЛОКАЦИИ %d БЛОКОВ!-----\n", COUNT);
   for (int i = 0; i < COUNT; i++) {
     obj[i] = (char *)malloc(64);
   }
   info_alloc(DBG_ALLOC_NOT_FREE);
-  printf("-----ОСВОБОЖДЕНИЕ 1000 ОБЪЕКТОВ!-----\n");
+  printf("-----ОСВОБОЖДЕНИЕ %d ОБЪЕКТОВ!-----\n", COUNT);
   for (int i = 0; i < COUNT; i++) {
     free(obj[i]);
   }
